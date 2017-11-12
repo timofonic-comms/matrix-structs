@@ -1,4 +1,4 @@
 [submodule "deps/json"]
 	path = deps/json
 	url = https://github.com/nlohmann/json
-    tag = v2.1.1
+	tag = v2.1.1
