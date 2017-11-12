@@ -35,6 +35,8 @@ joinRuleToString(const JoinRule &rule)
         case JoinRule::Private:
                 return "private";
         }
+
+        return "";
 }
 
 JoinRule

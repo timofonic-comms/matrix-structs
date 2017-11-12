@@ -28,11 +28,14 @@ matrix:
               packages: ['clang-5.0']
 
 before_install:
+    - export CXX=${COMPILER}
     - if [ $TRAVIS_OS_NAME == linux ]; then ./.ci/gtest.sh; fi
+    - if [ $TRAVIS_OS_NAME == linux ]; then sudo add-apt-repository -y ppa:george-edison55/cmake-3.x; fi
+    - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update -qq; fi
+    - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get install -qq -y cmake; fi
 install:
     - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install clang-format; fi
 script:
-    - export CXX=${COMPILER}
     - make
     - if [ $TRAVIS_OS_NAME == osx ]; then make lint; fi
-    - if [ $TRAVIS_OS_NAME == linux ]; then make test; fi
+    - if [ $TRAVIS_OS_NAME == linux && $COMPILER == g++-6 ]; then make test; fi

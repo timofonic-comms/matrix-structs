@@ -38,6 +38,8 @@ membershipToString(const Membership &membership)
         case Membership::Knock:
                 return "knock";
         }
+
+        return "";
 }
 
 Membership

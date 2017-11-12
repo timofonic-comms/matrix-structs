@@ -110,7 +110,7 @@ parse(const std::string &id)
         identifier.id_        = id;
 
         return identifier;
-};
+}
 
 } // namespace identifiers
 } // namespace mtx

@@ -42,6 +42,8 @@ visibilityToString(const Visibility &rule)
         case Visibility::Joined:
                 return "joined";
         }
+
+        return "";
 }
 
 Visibility
