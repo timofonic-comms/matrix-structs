@@ -1,0 +1,12 @@
+AccessModifierOffset: -8
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: true
+AllowShortFunctionsOnASingleLine: true
+BasedOnStyle: Mozilla
+ColumnLimit: 100
+Cpp11BracedListStyle: true
+IndentCaseLabels: false
+IndentWidth: 8
+KeepEmptyLinesAtTheStartOfBlocks: false
+Language: Cpp
+PointerAlignment: Right
