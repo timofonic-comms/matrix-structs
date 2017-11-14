@@ -25,3 +25,5 @@
 #include <mtx/events/messages/notice.hpp>
 #include <mtx/events/messages/text.hpp>
 #include <mtx/events/messages/video.hpp>
+
+#include <mtx/responses.hpp>

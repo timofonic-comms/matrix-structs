@@ -72,6 +72,15 @@ getEventType(const std::string &type)
         return EventType::Unsupported;
 }
 
+EventType
+getEventType(const json &obj)
+{
+        if (obj.find("type") != obj.end())
+                return getEventType(obj.at("type").get<std::string>());
+
+        return EventType::Unsupported;
+}
+
 template<class Content>
 struct Event
 {

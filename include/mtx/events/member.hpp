@@ -70,9 +70,13 @@ struct Member
 void
 from_json(const json &obj, Member &member)
 {
-        member.membership   = stringToMembership(obj.at("membership").get<std::string>());
-        member.avatar_url   = obj.at("avatar_url").get<std::string>();
-        member.display_name = obj.at("displayname").get<std::string>();
+        member.membership = stringToMembership(obj.at("membership").get<std::string>());
+
+        if (obj.count("displayname") != 0 && !obj.at("displayname").is_null())
+                member.display_name = obj.at("displayname").get<std::string>();
+
+        if (obj.count("avatar_url") != 0 && !obj.at("avatar_url").is_null())
+                member.avatar_url = obj.at("avatar_url").get<std::string>();
 
         if (obj.find("is_direct") != obj.end())
                 member.is_direct = obj.at("is_direct").get<bool>();

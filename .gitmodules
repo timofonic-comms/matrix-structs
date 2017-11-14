@@ -2,3 +2,6 @@
 	path = deps/json
 	url = https://github.com/nlohmann/json
 	tag = v2.1.1
+[submodule "deps/variant"]
+	path = deps/variant
+	url = https://github.com/mpark/variant.git
