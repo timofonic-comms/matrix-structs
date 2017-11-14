@@ -132,6 +132,33 @@ TEST(StateEvents, Create)
         EXPECT_EQ(event.content.creator.toString(), "@mujx:matrix.org");
 }
 
+TEST(StateEvents, GuestAccess)
+{
+        json data = R"({
+          "origin_server_ts": 1506761923948,
+          "sender": "@mujx:matrix.org",
+          "event_id": "$15067619231414398jhvQC:matrix.org",
+          "unsigned": {
+            "age": 3715756343
+          },
+          "state_key": "",
+          "content": {
+            "guest_access": "can_join"
+          },
+          "type": "m.room.guest_access"
+        })"_json;
+
+        ns::StateEvent<ns::state::GuestAccess> event = data;
+
+        EXPECT_EQ(event.type, ns::EventType::RoomGuestAccess);
+        EXPECT_EQ(event.event_id, "$15067619231414398jhvQC:matrix.org");
+        EXPECT_EQ(event.sender, "@mujx:matrix.org");
+        EXPECT_EQ(event.unsigned_data.age, 3715756343L);
+        EXPECT_EQ(event.origin_server_ts, 1506761923948L);
+        EXPECT_EQ(event.state_key, "");
+        EXPECT_EQ(event.content.guest_access, mtx::events::state::AccessState::CanJoin);
+}
+
 TEST(StateEvents, HistoryVisibility)
 {
         json data = R"({

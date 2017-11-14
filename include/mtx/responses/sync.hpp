@@ -51,6 +51,11 @@ from_json(const json &obj, State &state)
                         state.events.emplace_back(create);
                         break;
                 }
+                case events::EventType::RoomGuestAccess: {
+                        events::StateEvent<ns::GuestAccess> guest_access = e;
+                        state.events.emplace_back(guest_access);
+                        break;
+                }
                 case events::EventType::RoomHistoryVisibility: {
                         events::StateEvent<ns::HistoryVisibility> history_visibility = e;
                         state.events.emplace_back(history_visibility);
@@ -129,6 +134,11 @@ from_json(const json &obj, Timeline &timeline)
                 case events::EventType::RoomCreate: {
                         events::StateEvent<ns::Create> create = e;
                         timeline.events.emplace_back(create);
+                        break;
+                }
+                case events::EventType::RoomGuestAccess: {
+                        events::StateEvent<ns::GuestAccess> guest_access = e;
+                        timeline.events.emplace_back(guest_access);
                         break;
                 }
                 case events::EventType::RoomHistoryVisibility: {

@@ -2,13 +2,13 @@
 
 #include <mtx/identifiers.hpp>
 
-// TODO: m.room.guest_access
 // TODO: m.room.redaction
 #include <mtx/events.hpp>
 #include <mtx/events/aliases.hpp>
 #include <mtx/events/avatar.hpp>
 #include <mtx/events/canonical_alias.hpp>
 #include <mtx/events/create.hpp>
+#include <mtx/events/guest_access.hpp>
 #include <mtx/events/history_visibility.hpp>
 #include <mtx/events/join_rules.hpp>
 #include <mtx/events/member.hpp>

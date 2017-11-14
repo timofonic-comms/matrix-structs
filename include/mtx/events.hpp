@@ -17,6 +17,8 @@ enum class EventType
         RoomCanonicalAlias,
         /// m.room.create
         RoomCreate,
+        /// m.room.guest_access
+        RoomGuestAccess,
         /// m.room.history_visibility
         RoomHistoryVisibility,
         /// m.room.join_rules
@@ -50,6 +52,8 @@ getEventType(const std::string &type)
                 return EventType::RoomCanonicalAlias;
         else if (type == "m.room.create")
                 return EventType::RoomCreate;
+        else if (type == "m.room.guest_access")
+                return EventType::RoomGuestAccess;
         else if (type == "m.room.history_visibility")
                 return EventType::RoomHistoryVisibility;
         else if (type == "m.room.join_rules")
@@ -106,6 +110,9 @@ to_json(json &obj, const Event<Content> &event)
                 break;
         case EventType::RoomCreate:
                 obj["type"] = "m.room.create";
+                break;
+        case EventType::RoomGuestAccess:
+                obj["type"] = "m.room.guest_access";
                 break;
         case EventType::RoomHistoryVisibility:
                 obj["type"] = "m.room.history_visibility";
