@@ -82,7 +82,7 @@ from_json(const json &obj, State &state)
                         break;
                 }
                 default:
-                        std::cout << "Skipping unknown event " << e << std::endl;
+                        std::cout << "unknown event " << e << std::endl;
                         continue;
                 }
         }
@@ -103,19 +103,120 @@ from_json(const json &obj, Timeline &timeline)
 
         timeline.events.clear();
 
-        /* const auto events = obj.at("events"); */
+        const auto events = obj.at("events");
 
-        /* for (const auto &event : events) { */
-        /*         events::EventType type = mtx::events::getEventType(event); */
+        for (const auto &e : events) {
+                events::EventType type = mtx::events::getEventType(e);
 
-        /*         namespace ns = mtx::events::state; */
+                namespace ns = mtx::events::state;
 
-        /*         switch (type) { */
-        /*         default: */
-        /*                 // TODO handle the state events the room messages. */
-        /*                 continue; */
-        /*         } */
-        /* } */
+                switch (type) {
+                case events::EventType::RoomAliases: {
+                        events::StateEvent<ns::Aliases> alias = e;
+                        timeline.events.emplace_back(alias);
+                        break;
+                }
+                case events::EventType::RoomAvatar: {
+                        events::StateEvent<ns::Avatar> avatar = e;
+                        timeline.events.emplace_back(avatar);
+                        break;
+                }
+                case events::EventType::RoomCanonicalAlias: {
+                        events::StateEvent<ns::CanonicalAlias> canonical_alias = e;
+                        timeline.events.emplace_back(canonical_alias);
+                        break;
+                }
+                case events::EventType::RoomCreate: {
+                        events::StateEvent<ns::Create> create = e;
+                        timeline.events.emplace_back(create);
+                        break;
+                }
+                case events::EventType::RoomHistoryVisibility: {
+                        events::StateEvent<ns::HistoryVisibility> history_visibility = e;
+                        timeline.events.emplace_back(history_visibility);
+                        break;
+                }
+                case events::EventType::RoomJoinRules: {
+                        events::StateEvent<ns::JoinRules> join_rules = e;
+                        timeline.events.emplace_back(join_rules);
+                        break;
+                }
+                case events::EventType::RoomMember: {
+                        events::StateEvent<ns::Member> member = e;
+                        timeline.events.emplace_back(member);
+                        break;
+                }
+                case events::EventType::RoomName: {
+                        events::StateEvent<ns::Name> name = e;
+                        timeline.events.emplace_back(name);
+                        break;
+                }
+                case events::EventType::RoomPowerLevels: {
+                        events::StateEvent<ns::PowerLevels> power_levels = e;
+                        timeline.events.emplace_back(power_levels);
+                        break;
+                }
+                case events::EventType::RoomTopic: {
+                        events::StateEvent<ns::Topic> topic = e;
+                        timeline.events.emplace_back(topic);
+                        break;
+                }
+                case events::EventType::RoomMessage: {
+                        auto msg_type = mtx::events::getMessageType(e.at("content"));
+                        using MsgType = mtx::events::MessageType;
+
+                        switch (msg_type) {
+                        case MsgType::Audio: {
+                                events::RoomEvent<events::msg::Audio> audio = e;
+                                timeline.events.emplace_back(audio);
+                                break;
+                        }
+                        case MsgType::Emote: {
+                                events::RoomEvent<events::msg::Emote> emote = e;
+                                timeline.events.emplace_back(emote);
+                                break;
+                        }
+                        case MsgType::File: {
+                                events::RoomEvent<events::msg::File> file = e;
+                                timeline.events.emplace_back(file);
+                                break;
+                        }
+                        case MsgType::Image: {
+                                events::RoomEvent<events::msg::Image> image = e;
+                                timeline.events.emplace_back(image);
+                                break;
+                        }
+                        case MsgType::Location: {
+                                /* events::RoomEvent<events::msg::Location> location = e; */
+                                /* timeline.events.emplace_back(location); */
+                                break;
+                        }
+                        case MsgType::Notice: {
+                                events::RoomEvent<events::msg::Notice> notice = e;
+                                timeline.events.emplace_back(notice);
+                                break;
+                        }
+                        case MsgType::Text: {
+                                events::RoomEvent<events::msg::Text> text = e;
+                                timeline.events.emplace_back(text);
+                                break;
+                        }
+                        case MsgType::Video: {
+                                events::RoomEvent<events::msg::Video> video = e;
+                                timeline.events.emplace_back(video);
+                                break;
+                        }
+                        default:
+                                std::cout << "unknown m.room.message" << e << std::endl;
+                                continue;
+                        }
+                        break;
+                }
+                default:
+                        std::cout << "unknown event " << e << std::endl;
+                        continue;
+                }
+        }
 }
 
 struct UnreadNotifications
@@ -138,9 +239,9 @@ struct JoinedRoom
 {
         State state;
         Timeline timeline;
-        /* AccountData account_data; */
         UnreadNotifications unread_notifications;
-        std::vector<std::string> typing_user_ids; // TODO: this isn't the name of they key.
+        /* AccountData account_data; */
+        /* Ephemeral ephemeral; */
 };
 
 void

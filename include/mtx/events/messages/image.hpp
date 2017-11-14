@@ -32,7 +32,9 @@ from_json(const json &obj, Image &content)
 {
         content.body    = obj.at("body").get<std::string>();
         content.msgtype = obj.at("msgtype").get<std::string>();
-        content.url     = obj.at("url").get<std::string>();
+
+        if (obj.find("url") != obj.end())
+                content.url = obj.at("url").get<std::string>();
 
         if (obj.find("info") != obj.end())
                 content.info = obj.at("info").get<common::ImageInfo>();

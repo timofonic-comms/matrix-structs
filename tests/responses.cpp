@@ -82,6 +82,20 @@ TEST(Responses, Sync)
         file >> data;
 
         ns::Sync sync = data;
+
+        EXPECT_EQ(sync.next_batch,
+                  "s333358558_324502987_444424_65663508_21685260_193623_2377336_2940807_454");
+        EXPECT_EQ(sync.rooms.join.size(), 5);
+
+        auto nheko = sync.rooms.join["!BPvgRcBVHzyFSlYkrg:matrix.org"];
+        EXPECT_GT(nheko.state.events.size(), 0);
+        EXPECT_GT(nheko.timeline.events.size(), 0);
+        EXPECT_EQ(nheko.timeline.limited, true);
+        EXPECT_EQ(nheko.timeline.prev_batch,
+                  "t10853-333025362_324502987_444424_65663508_21685260_193623_2377336_2940807_454");
+
+        EXPECT_EQ(sync.rooms.leave.size(), 1);
+        EXPECT_EQ(sync.rooms.invite.size(), 0);
 }
 
 TEST(Responses, Rooms) {}

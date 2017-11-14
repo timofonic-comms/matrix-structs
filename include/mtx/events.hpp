@@ -271,7 +271,7 @@ from_json(const json &obj, StateEvent<Content> &event)
                 event.prev_content = obj.at("prev_content").get<Content>();
 }
 
-enum class MessageEventType
+enum class MessageType
 {
         // m.audio
         Audio,
@@ -292,6 +292,41 @@ enum class MessageEventType
         // Unrecognized message type
         Unknown,
 };
+
+MessageType
+getMessageType(const std::string &type)
+{
+        if (type == "m.audio")
+                return MessageType::Audio;
+        else if (type == "m.emote")
+                return MessageType::Emote;
+        else if (type == "m.file")
+                return MessageType::File;
+        else if (type == "m.image")
+                return MessageType::Image;
+        else if (type == "m.location")
+                return MessageType::Location;
+        else if (type == "m.notice")
+                return MessageType::Notice;
+        else if (type == "m.text")
+                return MessageType::Text;
+        else if (type == "m.video")
+                return MessageType::Video;
+
+        return MessageType::Unknown;
+}
+
+MessageType
+getMessageType(const json &obj)
+{
+        if (obj.is_null())
+                return MessageType::Unknown;
+
+        if (obj.find("msgtype") == obj.end())
+                return MessageType::Unknown;
+
+        return getMessageType(obj.at("msgtype").get<std::string>());
+}
 
 } // namespace events
 } // namespace mtx

@@ -34,7 +34,9 @@ from_json(const json &obj, File &content)
 {
         content.body    = obj.at("body").get<std::string>();
         content.msgtype = obj.at("msgtype").get<std::string>();
-        content.url     = obj.at("url").get<std::string>();
+
+        if (obj.find("url") != obj.end())
+                content.url = obj.at("url").get<std::string>();
 
         if (obj.find("filename") != obj.end())
                 content.filename = obj.at("filename").get<std::string>();
